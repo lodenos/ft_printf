@@ -3,7 +3,9 @@
 
 #include <stdarg.h>
 
-char *format_specifier_type(char const *, va_list *);
+#include "list.h"
+
+char *format_specifier_type(t_list *, char const *, va_list *);
 
 int ft_printf(char const *, ...);
 

@@ -42,6 +42,7 @@ fclean: clean
 	rm -f $(NAME)
 
 re:
+	make re -C $(LIBFT_PATH)
 	make
 
 .PHONY: all clean fclean re
