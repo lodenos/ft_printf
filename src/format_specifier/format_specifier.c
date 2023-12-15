@@ -1,13 +1,11 @@
-void format_specifier(char *str) {
-  (void)str;
-  // none
-//  if (length == NONE) {
-  //  if (ft_strchr("di", ))
- //   /  va_arg(args, int);
-//    else if (ft_strchr("uoxX", ))
-//      va_arg(args, unsigned int);
-//    else if (ft_strchr("fFeEgGaA", ))
-//      va_arg(args, double);
-//    else if ()
-//  va_arg(args, unsigned int) // "c"
+#include "ft_printf.h"
+
+char *format_specifier(t_fmt *fmt, char *format) {
+  format = format_specifier_parameter(fmt, format);
+  format = format_specifier_flag(fmt, format);
+  format = format_specifier_width(fmt, format);
+  format = format_specifier_precision(fmt, format);
+  format = format_specifier_length(fmt, format);
+  format = format_specifier_type(fmt, format);
+  return format;
 }

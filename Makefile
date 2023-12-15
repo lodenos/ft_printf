@@ -1,7 +1,8 @@
 NAME = libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-Weverything -std=gnu18 \
+#  -Wno-poison-system-directories -Wno-cast-qual
 
 LIBFT_PATH = ./libft
 
@@ -11,8 +12,25 @@ INCLUDES = -I $(INCLUDE_DIR) -I $(LIBFT_PATH)/inc
 SOURCE_DIR = src
 
 SOURCES = ft_printf.c \
+  convert/convert_to_char.c \
+  convert/convert_to_char_ptr.c \
+  convert/convert_to_character.c \
+  convert/convert_to_double.c \
+  convert/convert_to_int.c \
+  convert/convert_to_long.c \
+  convert/convert_to_long_double.c \
+  convert/convert_to_long_long.c \
+  convert/convert_to_short.c \
+  convert/convert_to_string.c \
+  convert/convert_to_u_char.c \
+  convert/convert_to_u_int.c \
+  convert/convert_to_u_long.c \
+  convert/convert_to_u_long_long.c \
+  convert/convert_to_u_short.c \
+  convert/convert_to_void_ptr.c \
+  \
   format_specifier/format_specifier.c \
-  format_specifier/format_specifier_flags.c \
+  format_specifier/format_specifier_flag.c \
   format_specifier/format_specifier_length.c \
   format_specifier/format_specifier_parameter.c \
   format_specifier/format_specifier_precision.c \
