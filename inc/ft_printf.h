@@ -46,6 +46,8 @@ char *format_specifier_precision(t_fmt *, char *);
 char *format_specifier_type(t_fmt *, char *);
 char *format_specifier_width(t_fmt *, char *);
 
+void wrapper_padding(t_fmt *, t_list *, char const *);
+
 int ft_printf(char const *, ...);
 
 #endif

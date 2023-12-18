@@ -12,6 +12,8 @@ INCLUDES = -I $(INCLUDE_DIR) -I $(LIBFT_PATH)/inc
 SOURCE_DIR = src
 
 SOURCES = ft_printf.c \
+  wrapper_padding.c \
+  \
   convert/convert_to_char.c \
   convert/convert_to_char_ptr.c \
   convert/convert_to_character.c \

@@ -4,17 +4,13 @@
 #include "ft_string.h"
 
 void convert_to_int(t_fmt *fmt, t_list *buffer, va_list *args) {
-  char *data;
+  char str[12];
+  int number = va_arg(*args, int);
 
-  (void)fmt;
-  data = (char *)malloc(12);
-  if (!data)
-    return ;
-
-  if (fmt->flag == '+') {
-    list_push(buffer, list_new_node(ft_strdup("+"), 2));
-  }
-
-  ft_itoa(va_arg(*args, int), data, DECIMAL);
-  list_push(buffer, list_new_node(data, 12));
+  if (fmt->flag == '+' && number > -1) {
+    ft_itoa(number, str + 1, DECIMAL);
+    *str = '+';
+  } else
+    ft_itoa(number, str, DECIMAL);
+  wrapper_padding(fmt, buffer, str);
 }
