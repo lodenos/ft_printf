@@ -8,10 +8,16 @@ typedef struct s_fmt t_fmt;
 
 struct s_fmt {
   // parameter
+
   char flag;
-  // width
-  // precision
+
+  unsigned int width;
+
+  char precision;
+  unsigned int precision_number;
+
   char length[2];
+
   char type;
 };
 

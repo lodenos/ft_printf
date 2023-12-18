@@ -2,7 +2,7 @@
 #include "ft_printf.h"
 #include "ft_stdlib.h"
 
-void convert_to_short(t_fmt *fmt, t_list *buffer, va_list *args) {
+void convert_to_long(t_fmt *fmt, t_list *buffer, va_list *args) {
   char *data;
 
   (void)fmt;

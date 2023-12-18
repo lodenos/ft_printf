@@ -59,6 +59,8 @@ fclean: clean
 	make fclean -C $(LIBFT_PATH)
 	rm -f $(NAME)
 
+bonus:
+
 re:
 	make re -C $(LIBFT_PATH)
 	make
