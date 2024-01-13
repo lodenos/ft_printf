@@ -3,7 +3,7 @@
 #include "ft_stdlib.h"
 #include "ft_string.h"
 
-void convert_to_u_long(t_fmt *fmt, t_list *buffer, va_list *args) {
+void convert_from_u_long(t_fmt *fmt, t_list *buffer, va_list *args) {
   char *data;
 
   data = (char *)malloc(7);

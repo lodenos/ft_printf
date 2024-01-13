@@ -14,22 +14,22 @@ SOURCE_DIR = src
 SOURCES = ft_printf.c \
   wrapper_padding.c \
   \
-  convert/convert_to_char.c \
-  convert/convert_to_char_ptr.c \
-  convert/convert_to_character.c \
-  convert/convert_to_double.c \
-  convert/convert_to_int.c \
-  convert/convert_to_long.c \
-  convert/convert_to_long_double.c \
-  convert/convert_to_long_long.c \
-  convert/convert_to_short.c \
-  convert/convert_to_string.c \
-  convert/convert_to_u_char.c \
-  convert/convert_to_u_int.c \
-  convert/convert_to_u_long.c \
-  convert/convert_to_u_long_long.c \
-  convert/convert_to_u_short.c \
-  convert/convert_to_void_ptr.c \
+  convert/convert_from_char.c \
+  convert/convert_from_char_ptr.c \
+  convert/convert_from_character.c \
+  convert/convert_from_double.c \
+  convert/convert_from_int.c \
+  convert/convert_from_long.c \
+  convert/convert_from_long_double.c \
+  convert/convert_from_long_long.c \
+  convert/convert_from_short.c \
+  convert/convert_from_string.c \
+  convert/convert_from_u_char.c \
+  convert/convert_from_u_int.c \
+  convert/convert_from_u_long.c \
+  convert/convert_from_u_long_long.c \
+  convert/convert_from_u_short.c \
+  convert/convert_from_void_ptr.c \
   \
   format_specifier/format_specifier.c \
   format_specifier/format_specifier_flag.c \
@@ -37,7 +37,11 @@ SOURCES = ft_printf.c \
   format_specifier/format_specifier_parameter.c \
   format_specifier/format_specifier_precision.c \
   format_specifier/format_specifier_type.c \
-  format_specifier/format_specifier_width.c
+  format_specifier/format_specifier_width.c \
+  \
+  print/print_floating.c \
+  print/print_number.c \
+  print/print_symbol.c
 
 OBJ_DIR = obj
 OBJS = $(patsubst %.c, %.o, $(addprefix $(SOURCE_DIR)/, $(SOURCES)))

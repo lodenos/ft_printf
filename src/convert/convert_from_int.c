@@ -3,7 +3,7 @@
 #include "ft_stdlib.h"
 #include "ft_string.h"
 
-void convert_to_int(t_fmt *fmt, t_list *buffer, va_list *args) {
+void convert_from_int(t_fmt *fmt, t_list *buffer, va_list *args) {
   char str[12];
   int number = va_arg(*args, int);
 
@@ -12,5 +12,5 @@ void convert_to_int(t_fmt *fmt, t_list *buffer, va_list *args) {
     *str = '+';
   } else
     ft_itoa(number, str, DECIMAL);
-  wrapper_padding(fmt, buffer, str);
+  wrapper_padding(fmt, buffer, str, NUMBER);
 }

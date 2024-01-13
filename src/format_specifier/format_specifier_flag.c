@@ -3,7 +3,7 @@
 char *format_specifier_flag(t_fmt *fmt, char *format) {
   if (*format == '-') {
     fmt->flag = '-';
-    return ++format;
+    return format_specifier_flag(fmt, ++format);
   } else if (*format == '+') {
     fmt->flag = '+';
     return ++format;

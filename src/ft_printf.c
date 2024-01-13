@@ -4,100 +4,81 @@
 #include "ft_printf.h"
 #include "libft.h"
 
-#include <stdio.h>
-
-static t_list *list_merge_data(t_list *list) {
-  size_t size;
-  void *memory;
-  t_list_node *node = list->head;
-
-  size = 0;
-  while (node) {
-    size += node->size;
-    node = node->next;
+void __no_name_yet(t_fmt *fmt, t_list *buffer, va_list *args)  {
+  if (fmt->type == 'c')
+    convert_from_character(fmt, buffer, args);
+  else if (fmt->type == 's')
+    convert_from_string(fmt, buffer, args);
+  else if (fmt->type == 'p')
+    convert_from_void_ptr(fmt, buffer, args);
+  else if (fmt->type == 'd')
+    convert_from_int(fmt, buffer, args);
+  else if (fmt->type == 'i')
+    convert_from_int(fmt, buffer, args);
+  else if (fmt->type == 'u')
+    convert_from_u_int(fmt, buffer, args);
+  else if (fmt->type == 'x')
+    convert_from_u_int(fmt, buffer, args);
+  else if (fmt->type == 'X')
+    convert_from_u_int(fmt, buffer, args);
+  else if (fmt->type == '%') {
+    if (fmt->flag == '0') {
+      list_push(buffer, list_new_node(ft_strdup("%"), 2));
+      if (fmt->width > 0)
+        fmt->width -= 1;
+      wrapper_padding(fmt, buffer, "", STRING);
+    } else
+      wrapper_padding(fmt, buffer, "%", STRING);
   }
-  memory = malloc(size);
-  if (!memory)
-    return NULL;
-  node = list->head;
-  size = 0;
-  while (node) {
-
-    if (*(char *)node->data == -1) {
-
-      ((char *)memory)[size] = 0;
-      size += 1;
-      node = node->next;
-      continue ;
-    }
-
-    ft_memcpy((char *)memory + size, node->data, ft_strlen(node->data));
-    size += ft_strlen(node->data);
-    node = node->next;
-  }
-  return list_new(memory, size);
 }
 
-static void add_str(t_fmt *fmt, t_list *buffer, va_list *args) {
-  if (fmt->type == '%') {
+static char *__handler_format(t_list *buffer, char *format, char *head,
+    va_list *args) {
+  t_fmt fmt;
+  size_t size;
 
-    //va_arg(*args, int);
-    list_push(buffer, list_new_node(ft_strdup("%"), 2));
+  fmt = (t_fmt){ 0 };
+  size = format - head - 1;
+  list_push(buffer, list_new_node(ft_strndup(head, size), size + 1));
+  format = format_specifier(&fmt, format);
 
-  } else if (fmt->type == 'c')
-    convert_to_character(fmt, buffer, args);
-  else if (fmt->type == 'd' || fmt->type == 'i')
-    convert_to_int(fmt, buffer, args);
-  else if (fmt->type == 'o')
-    convert_to_u_int(fmt, buffer, args);
-  else if (fmt->type == 'p')
-    convert_to_void_ptr(fmt, buffer, args);
-  else if (fmt->type == 's')
-    convert_to_string(fmt, buffer, args);
-  else if (fmt->type == 'u')
-    convert_to_u_int(fmt, buffer, args);
-  else if (fmt->type == 'x')
-    convert_to_u_int(fmt, buffer, args);
-  else if (fmt->type == 'X')
-    convert_to_u_int(fmt, buffer, args);
+  __no_name_yet(&fmt, buffer, args);
+
+  return format;
+}
+
+static int __print_buffer(t_list *buffer) {
+  int num;
+  t_string *string;
+
+  string = list_to_string(buffer);
+  num = write(1, string->data, string->size);
+  ft_string_free(&string);
+  return num;
 }
 
 int ft_printf(char const *format, ...) {
   va_list args;
-  ssize_t num;
   t_list buffer;
   char *head;
+  int num;
   size_t size;
-  t_fmt fmt;
+
+  buffer = (t_list){ 0 };
   head = (char *)format;
   va_start(args, format);
   while (*format) {
     if (*format == '%') {
-      ++format;
-
-      fmt = (t_fmt){ 0 };
-      size = format - head - 1;
-      //printf("> %s\n", ft_strndup(head, size));
-
-
-      list_push(&buffer, list_new_node(ft_strndup(head, size), size));
-      format = format_specifier(&fmt, (char *)format);
-
-
-      add_str(&fmt, &buffer, &args);
+      format = __handler_format(&buffer, (char *)++format, head, &args);
       head = (char *)format;
-
       continue ;
     }
     ++format;
   }
   va_end(args);
   size = format - head;
-  list_push(&buffer, list_new_node(ft_strndup(head, size), size));
-  t_list *print = list_merge_data(&buffer);
+  list_push(&buffer, list_new_node(ft_strndup(head, size), size + 1));
+  num = __print_buffer(&buffer); 
   list_clear(&buffer, NULL);
-  num = write(1, print->head->data, print->head->size);
-  list_clear(print, NULL);
-  free(print);
   return num;
 }

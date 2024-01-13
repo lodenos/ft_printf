@@ -1,14 +1,15 @@
 #include <stdlib.h>
 
 #include "ft_printf.h"
-
 #include "ft_string.h"
 #include "ft_stdlib.h"
 
 char *format_specifier_width(t_fmt *fmt, char *format) {
-  (void)fmt;
+
+  fmt->width = UNDEFINED;
+
   if (*format == '*') {
-    // TODO: add code
+    fmt->width = -1;
     return ++format;
   } else if (*format >= '0' && *format <= '9') {
     char *start = format;

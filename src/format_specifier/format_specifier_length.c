@@ -1,28 +1,33 @@
 #include "ft_printf.h"
 
 char *format_specifier_length(t_fmt *fmt, char *format) {
-  fmt->length[1] = 0;
-
   if (*format == 'L') {
-    fmt->length[0] = 'L';
+    fmt->length = LONG_DOUBLE;
     return ++format;
   } else if (*format == 'h') {
-    fmt->length[0] = 'h';
-    // hh
+    if (format[1] == 'h') {
+      fmt->length = CHAR;
+      return format + 2;
+    }
+    fmt->length = SHORT;
     return ++format;
   } else if (*format == 'j') {
-    fmt->length[0] = 'j';
+    fmt->length = UNSUPPORTED;
     return ++format;
   } else if (*format == 'l') {
-    fmt->length[0] = 'l';
-    // ll
+    if (format[1] == 'h') {
+      fmt->length = LONG_LONG;
+      return format + 2;
+    }
+    fmt->length = LONG;
     return ++format;
   } else if (*format == 't') {
-    fmt->length[0] = 't';
+    fmt->length = UNSUPPORTED;
     return ++format;
   } else if (*format == 'z') {
-    fmt->length[0] = 'z';
+    fmt->length = UNSUPPORTED;
     return ++format;
-  }
+  } else
+    fmt->length = NONE;
   return format;
 }
