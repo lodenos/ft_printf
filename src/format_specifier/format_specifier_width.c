@@ -5,9 +5,7 @@
 #include "ft_stdlib.h"
 
 char *format_specifier_width(t_fmt *fmt, char *format) {
-
   fmt->width = UNDEFINED;
-
   if (*format == '*') {
     fmt->width = -1;
     return ++format;

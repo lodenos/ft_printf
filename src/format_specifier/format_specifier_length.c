@@ -12,20 +12,20 @@ char *format_specifier_length(t_fmt *fmt, char *format) {
     fmt->length = SHORT;
     return ++format;
   } else if (*format == 'j') {
-    fmt->length = UNSUPPORTED;
+    fmt->length = LONG_LONG; // INTMAX
     return ++format;
   } else if (*format == 'l') {
-    if (format[1] == 'h') {
+    if (format[1] == 'l') {
       fmt->length = LONG_LONG;
       return format + 2;
     }
     fmt->length = LONG;
     return ++format;
-  } else if (*format == 't') {
-    fmt->length = UNSUPPORTED;
-    return ++format;
+//  } else if (*format == 't') {
+//    fmt->length = UNSUPPORTED;
+//    return ++format;
   } else if (*format == 'z') {
-    fmt->length = UNSUPPORTED;
+    fmt->length = SIZE;
     return ++format;
   } else
     fmt->length = NONE;

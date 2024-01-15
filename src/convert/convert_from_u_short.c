@@ -1,23 +1,18 @@
-#include <stdlib.h>
 #include "ft_printf.h"
 #include "ft_stdlib.h"
 #include "ft_string.h"
 
 void convert_from_u_short(t_fmt *fmt, t_list *buffer, va_list *args) {
-  char *data;
+  char str[8];
+  const unsigned short number = va_arg(*args, unsigned int);
 
-  data = (char *)malloc(7);
-  if (!data)
-    return ;
   if (fmt->type == 'X')
-    ft_utoa((unsigned short)va_arg(*args, unsigned int), data, HEX);
+    ft_utoa(number, str, HEX);
   else if (fmt->type == 'o')
-    ft_utoa((unsigned short)va_arg(*args, unsigned int), data, OCTAL);
+    ft_utoa(number, str, OCTAL);
   else if (fmt->type == 'u')
-    ft_utoa((unsigned short)va_arg(*args, unsigned int), data, DECIMAL);
-  else if (fmt->type == 'x') {
-    ft_utoa((unsigned short)va_arg(*args, unsigned int), data, HEX);
-    ft_strlwr(data);
-  }
-  list_push(buffer, list_new_node(data, 7));
+    ft_utoa(number, str, DECIMAL);
+  else if (fmt->type == 'x')
+    ft_strlwr(ft_utoa(number, str, HEX));
+  wrapper_decorator(fmt, buffer, str, NUMBER);
 }

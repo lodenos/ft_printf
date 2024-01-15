@@ -4,7 +4,6 @@
 #include <stdarg.h>
 #include "list.h"
 
-
 #define UNDEFINED -1014
 
 #define CHARACTER 0
@@ -18,17 +17,30 @@ enum e_fmt_length {
   LONG,
   LONG_LONG,
   LONG_DOUBLE,
-  UNSUPPORTED
+  SIZE
+};
+
+enum e_fmt_flag {
+  COMMA            = 1,
+  DOLLAR           = 2,
+  HASH             = 4,
+  LEFT_PARENTHESIS = 8,
+  LESS_THAN        = 16,
+  MINUS            = 32,
+  PLUS             = 64,
+  SPACE            = 128,
+  ZERO             = 256
 };
 
 typedef struct s_fmt t_fmt;
+typedef struct s_fmt_flag t_fmt_flag;
 
 struct s_fmt {
   // parameter
-  char flag;
+  int flag;
   int width;
   int precision;
-  enum e_fmt_length length;
+  char length;
   char type;
 };
 
@@ -57,11 +69,13 @@ char *format_specifier_precision(t_fmt *, char *);
 char *format_specifier_type(t_fmt *, char *);
 char *format_specifier_width(t_fmt *, char *);
 
+void format_specifier_to_string(t_fmt *, t_list *, va_list *);
+
 void print_floating(t_fmt *, t_list *, va_list *);
 void print_number(t_fmt *, t_list *, va_list *);
 void print_symbol(t_fmt *, t_list *, va_list *);
 
-void wrapper_padding(t_fmt *, t_list *, char const *, int);
+void wrapper_decorator(t_fmt *, t_list *, char const *, int);
 
 int ft_printf(char const *, ...);
 

@@ -1,14 +1,14 @@
-#include <stdlib.h>
 #include "ft_printf.h"
 #include "ft_stdlib.h"
 
-void convert_to_long(t_fmt *fmt, t_list *buffer, va_list *args) {
-  char *data;
+void convert_from_long(t_fmt *fmt, t_list *buffer, va_list *args) {
+  char str[12];
+  const int number = va_arg(*args, int);
 
-  (void)fmt;
-  data = (char *)malloc(12);
-  if (!data)
-    return ;
-  ft_ltoa(va_arg(*args, long), data, DECIMAL);
-  list_push(buffer, list_new_node(data, 12));
+  if (fmt->flag & PLUS && number > -1) {
+    ft_itoa(number, str + 1, DECIMAL);
+    *str = '+';
+  } else
+    ft_itoa(number, str, DECIMAL);
+  wrapper_decorator(fmt, buffer, str, NUMBER);
 }

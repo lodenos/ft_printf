@@ -6,5 +6,5 @@ void convert_from_character(t_fmt *fmt, t_list *buffer, va_list *args) {
 
   (void)fmt;
   tmp[0] = (char)va_arg(*args, int);
-  wrapper_padding(fmt, buffer, tmp, CHARACTER);
+  wrapper_decorator(fmt, buffer, tmp, CHARACTER);
 }
