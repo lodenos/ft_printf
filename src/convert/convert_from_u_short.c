@@ -4,7 +4,7 @@
 
 void convert_from_u_short(t_fmt *fmt, t_list *buffer, va_list *args) {
   char str[8];
-  const unsigned short number = va_arg(*args, unsigned int);
+  const unsigned short number = (unsigned short)va_arg(*args, unsigned int);
 
   if (fmt->type == 'X')
     ft_utoa(number, str, HEX);

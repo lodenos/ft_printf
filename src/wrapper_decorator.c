@@ -39,7 +39,7 @@ void wrapper_decorator(t_fmt *fmt, t_list *buffer, char const *str, int type) {
           chunk_len = 0;
         }
       } else {
-        if (fmt->precision > str_len) {
+        if ((size_t)fmt->precision > str_len) {
           chunk = ft_strdup(str);
           chunk_len = ft_strlen(chunk);
         } else {
@@ -53,7 +53,7 @@ void wrapper_decorator(t_fmt *fmt, t_list *buffer, char const *str, int type) {
     if (fmt->width == UNDEFINED) {
       list_push(buffer, list_new_node(chunk, chunk_len + 1));
     } else {
-      if (fmt->width > chunk_len) {
+      if ((size_t)fmt->width > chunk_len) {
         padding_len = (size_t)fmt->width - chunk_len;
         padding = (char *)malloc(padding_len + 1);
         padding[padding_len] = 0;
@@ -85,13 +85,13 @@ void wrapper_decorator(t_fmt *fmt, t_list *buffer, char const *str, int type) {
     } else {
       size_t shift = (*str == '-' || *str == '+') ? 1 : 0;
 
-      if (fmt->precision > (str_len - shift)) {
+      if ((size_t)fmt->precision > (str_len - shift)) {
         chunk_len = (size_t)fmt->precision + shift;
         chunk = (char *)calloc(chunk_len + 1, 1); // malloc
         chunk[chunk_len] = 0;
         if (shift)
           *chunk = *str;
-        ft_memset(chunk + shift, '0', fmt->precision - (str_len - shift));
+        ft_memset(chunk + shift, '0', (size_t)fmt->precision - (str_len - shift));
         ft_memcpy(chunk + shift + fmt->precision - (str_len - shift),
           str + shift, str_len - shift);
       } else {
@@ -123,8 +123,8 @@ void wrapper_decorator(t_fmt *fmt, t_list *buffer, char const *str, int type) {
         list_push(buffer, list_new_node(chunk, chunk_len + 1));
       }
     } else {
-      if (fmt->width > chunk_len) {
-        padding_len = fmt->width - chunk_len;
+      if ((size_t)fmt->width > chunk_len) {
+        padding_len = (size_t)fmt->width - chunk_len;
         if (*str == '-' || *str == '+') {
           ;
         } else {

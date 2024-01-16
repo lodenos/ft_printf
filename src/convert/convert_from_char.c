@@ -3,7 +3,7 @@
 
 void convert_from_char(t_fmt *fmt, t_list *buffer, va_list *args) {
   char str[5];
-  const char number = va_arg(*args, int);
+  const char number = (char)va_arg(*args, int);
 
   if (fmt->flag & PLUS && number > -1) {
     ft_itoa(number, str + 1, DECIMAL);

@@ -4,7 +4,7 @@
 
 void convert_from_u_char(t_fmt *fmt, t_list *buffer, va_list *args) {
   char str[4];
-  const unsigned char number = va_arg(*args, unsigned int);
+  const unsigned char number = (unsigned char)va_arg(*args, unsigned int);
 
   if (fmt->type == 'X')
     ft_utoa(number, str, HEX);
