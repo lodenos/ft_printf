@@ -1,18 +1,23 @@
 #include "ft_printf.h"
 #include "ft_stdlib.h"
-#include "ft_string.h"
 
 void convert_from_u_long(t_fmt *fmt, t_list *buffer, va_list *args) {
-  char str[14];
-  const unsigned long number = va_arg(*args, unsigned long);
+  char tmp[14]; // 13 + 1
+  t_string string;
+  const unsigned int number = va_arg(*args, unsigned int);
 
   if (fmt->type == 'X')
-    ft_ultoa(number, str, HEX);
+    ft_ultoa(number, tmp, HEX);
   else if (fmt->type == 'o')
-    ft_ultoa(number, str, OCTAL);
+    ft_ultoa(number, tmp, OCTAL);
   else if (fmt->type == 'u')
-    ft_ultoa(number, str, DECIMAL);
+    ft_ultoa(number, tmp, DECIMAL);
   else if (fmt->type == 'x')
-    ft_strlwr(ft_ultoa(number, str, HEX));
-  wrapper_decorator(fmt, buffer, str, NUMBER);
+    ft_strlwr(ft_ultoa(number, tmp, HEX));
+  string = (t_string) {
+    .data = tmp,
+    .data_size = ft_strlen(tmp),
+    .ptr_size = 14
+  };
+  token_decorator_number(fmt, buffer, &string);
 }

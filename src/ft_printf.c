@@ -22,7 +22,7 @@ static int __print_buffer(t_list *buffer) {
   t_string *string;
 
   string = list_to_string(buffer);
-  num = (int)write(1, string->data, string->size);
+  num = (int)write(1, string->data, string->data_size);
   ft_string_free(&string);
   return num;
 }

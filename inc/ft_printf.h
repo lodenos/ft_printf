@@ -2,13 +2,11 @@
 #define FT_PRINTF_H
 
 #include <stdarg.h>
+
+#include "ft_string.h"
 #include "list.h"
 
 #define UNDEFINED -1014
-
-#define CHARACTER 0
-#define NUMBER 1
-#define STRING 2
 
 enum e_fmt_length {
   NONE,
@@ -44,6 +42,7 @@ struct s_fmt {
   char type;
 };
 
+// Convert
 void convert_from_char(t_fmt *, t_list *, va_list *);
 void convert_from_char_ptr(t_fmt *, t_list *, va_list *);
 void convert_from_character(t_fmt *, t_list *, va_list *);
@@ -60,7 +59,7 @@ void convert_from_u_long(t_fmt *, t_list *, va_list *);
 void convert_from_u_long_long(t_fmt *, t_list *, va_list *);
 void convert_from_u_short(t_fmt *, t_list *, va_list *);
 void convert_from_void_ptr(t_fmt *, t_list *, va_list *);
-
+// Format Specifier
 char *format_specifier(t_fmt *, char *);
 char *format_specifier_flag(t_fmt *, char *);
 char *format_specifier_length(t_fmt *, char *);
@@ -68,15 +67,13 @@ char *format_specifier_parameter(t_fmt *, char *);
 char *format_specifier_precision(t_fmt *, char *);
 char *format_specifier_type(t_fmt *, char *);
 char *format_specifier_width(t_fmt *, char *);
-
+// ???
 void format_specifier_to_string(t_fmt *, t_list *, va_list *);
-
-void print_floating(t_fmt *, t_list *, va_list *);
-void print_number(t_fmt *, t_list *, va_list *);
-void print_symbol(t_fmt *, t_list *, va_list *);
-
-void wrapper_decorator(t_fmt *, t_list *, char const *, int);
-
+// Token Decorator
+void token_decorator_character(t_fmt *, t_list *, t_string *);
+void token_decorator_number(t_fmt *, t_list *, t_string *);
+void token_decorator_string(t_fmt *, t_list *, t_string *);
+// The Printf
 int ft_printf(char const *, ...);
 
 #endif
