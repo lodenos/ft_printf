@@ -1,7 +1,7 @@
 NAME = libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Weverything -std=gnu18 \
+CFLAGS = -Wall -Wextra -Werror # -Weverything -std=gnu18 \
   -Wno-poison-system-directories -Wno-cast-qual -Wno-padded 
 
 LIBFT_PATH = ./libft
@@ -12,7 +12,6 @@ INCLUDES = -I $(INCLUDE_DIR) -I $(LIBFT_PATH)/inc
 SOURCE_DIR = src
 
 SOURCES = ft_printf.c \
-  wrapper_decorator.c \
   \
   convert/convert_from_char.c \
   convert/convert_from_char_ptr.c \
@@ -38,7 +37,11 @@ SOURCES = ft_printf.c \
   format_specifier/format_specifier_precision.c \
   format_specifier/format_specifier_to_string.c \
   format_specifier/format_specifier_type.c \
-  format_specifier/format_specifier_width.c
+  format_specifier/format_specifier_width.c \
+  \
+  token_decorator/token_decorator_character.c \
+  token_decorator/token_decorator_number.c \
+  token_decorator/token_decorator_string.c
 
 OBJ_DIR = obj
 OBJS = $(patsubst %.c, %.o, $(addprefix $(SOURCE_DIR)/, $(SOURCES)))
