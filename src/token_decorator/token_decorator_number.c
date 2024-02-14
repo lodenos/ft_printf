@@ -1,34 +1,12 @@
-#include <stdlib.h>
 #include "ft_printf.h"
 #include "ft_string.h"
 
-#include <stdio.h>
+void token_decorator_number(t_fmt *fmt, t_string_build *buffer, char *str) {
+  (void)fmt;
 
-size_t __token_size(t_fmt *fmt, t_string *string, unsigned int *sign) {
-  size_t size;
+  string_build_append_str(buffer, str, ft_strlen(str));
 
-  size = 0;
-  *sign = 0;
-  if (*string->data == '-' || *string->data == '+')
-    *sign = 1;
-  if ((fmt->flag & HASH) && *string->data != '0')
-    *sign += 2;
-  size = string->data_size - (*sign & 1);
-  if (fmt->width != UNDEFINED && (size_t)fmt->width > size)
-    size = fmt->width - *sign;
-  if (fmt->precision != UNDEFINED && (size_t)fmt->precision > size)
-    size = fmt->precision;
-  if (string->data_size - (*sign & 1) > size)
-    size = string->data_size - (*sign & 1);
-
-  if ((fmt->flag & SPACE) && !(*sign & 1))
-    size += 1;
-
-  return size + *sign;
-}
-
-void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
-  t_string chunk;
+/*  t_string chunk;
   unsigned int sign;
 
   //---------- Find the size
@@ -64,27 +42,48 @@ void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
     precision = fmt->precision;
   }
 
-  if (fmt->precision != UNDEFINED && string->data_size == 1 && precision == 0 && *string->data == '0') {
+  // this is a shit fix
+  if (fmt->precision != UNDEFINED && string->data_size == 1
+      && precision == 0 && *string->data == '0') {
+    if (fmt->width != UNDEFINED) {
+      free(chunk.data);
+      chunk.data = (char *)malloc(fmt->width + 1);
+      chunk.data[fmt->width] = 0;
+      ft_memset(chunk.data, ' ', fmt->width);
+      list_push(buffer, list_new_node(chunk.data, chunk.ptr_size));
+      return ;
+    }
     free(chunk.data);
-    return;
+    return ;
   }
 
+//  printf("|%s|\n", chunk.data);
 
   //------>
 
-  if (head > string->data_size) {
+  if (head > string->data_size - (sign % 1)) {
     size_t diff = 0;
-    if (precision > string->data_size)
-      diff = precision - string->data_size + (sign & 1);
-    head -= string->data_size + diff;
+
+    if (precision >= string->data_size)
+      diff = precision - string->data_size;
+
+    if (diff > head) {
+      head = 0;
+    } else {
+      if (fmt->precision == UNDEFINED)
+        head -= string->data_size + diff;
+      else
+        head -= string->data_size + diff + (sign & 1);
+    }
+
   } else
     head = 0;
 
+//  printf("> head: %zu\n", head);
   if (fmt->flag & MINUS) {
     tail = head;
     head = 0;
   }
-
 
   if (zero > string->data_size - (sign & 1))
     zero -= string->data_size - (sign & 1);
@@ -96,7 +95,6 @@ void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
       zero = head;
       head = 0;
     }
-
   }
 
   //------> Space
@@ -106,19 +104,26 @@ void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
     ++data;
   }
 
+//  printf("|%s|\n", chunk.data);
   //------> Left or Right
+
+//  printf("> head: %zu\n", head);
 
    if (head) {
     ft_memset(data, ' ', head);
     data += head;
   }
 
+//  printf("|%s|\n", chunk.data);
   //------> Sign
 
   if (sign & 1) {
     *data = *string->data;
     ++data;
   }
+
+//  printf("|%s|\n", chunk.data);
+
   if ((sign & 2) && *string->data != '0') {
     if (fmt->type == 'X') {
       ft_memcpy(data, "0X", 2);
@@ -129,6 +134,7 @@ void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
     }
   }
 
+//  printf("|%s|\n", chunk.data);
   //------> Zero & Precision
 
   if (zero) {
@@ -136,16 +142,21 @@ void token_decorator_number(t_fmt *fmt, t_list *buffer, t_string *string) {
     data += zero;
   }
 
+//  printf("|%s|\n", chunk.data);
   //------> Number
 
   ft_memcpy(data, string->data + (sign & 1), string->data_size - (sign & 1));
 
+//  printf("|%s|\n", chunk.data);
   data += string->data_size - (sign & 1);
 
+//  printf("|%s|\n", chunk.data);
   if (tail)
     ft_memset(data, ' ', tail);
 
   //------> Token Pushing
 
+//  printf("|%s|\n", chunk.data);
   list_push(buffer, list_new_node(chunk.data, chunk.ptr_size));
+*/
 }

@@ -1,20 +1,14 @@
 #include "ft_printf.h"
 #include "ft_stdlib.h"
 
-void convert_from_long(t_fmt *fmt, t_list *buffer, va_list *args) {
-  char tmp[12]; // 1 + 10 + 1
-  t_string string;
+void convert_from_long(t_fmt *fmt, t_string_build *buffer, va_list *args) {
+  char token[12]; // 1 + 10 + 1
   const long number = va_arg(*args, long);
 
   if (fmt->flag & PLUS && number > -1) {
-    *tmp = '+';
-    ft_ltoa(number, tmp + 1, DECIMAL);
+    *token = '+';
+    ft_ltoa(number, token + 1, DECIMAL);
   } else
-    ft_ltoa(number, tmp, DECIMAL);
-  string = (t_string) {
-    .data = tmp,
-    .data_size = ft_strlen(tmp),
-    .ptr_size = 12
-  };
-  token_decorator_number(fmt, buffer, &string);
+    ft_ltoa(number, token, DECIMAL);
+  token_decorator_number(fmt, buffer, token);
 }

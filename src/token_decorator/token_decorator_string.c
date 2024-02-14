@@ -1,10 +1,13 @@
-#include <stdlib.h>
 #include "ft_printf.h"
 #include "ft_string.h"
-#include "list.h"
 
-void token_decorator_string(t_fmt *fmt, t_list *buffer, t_string *string) {
-  t_string chunk;
+void token_decorator_string(t_fmt *fmt, t_string_build *buffer, char *str) {
+  (void)fmt;
+
+  string_build_append_str(buffer, str, ft_strlen(str));
+
+ /*
+ t_string chunk;
 
   chunk = (t_string){0};
   if (fmt->precision != UNDEFINED) {
@@ -53,4 +56,5 @@ void token_decorator_string(t_fmt *fmt, t_list *buffer, t_string *string) {
     }
   }
   list_push(buffer, list_new_node(chunk.data, chunk.ptr_size));
+  */
 }

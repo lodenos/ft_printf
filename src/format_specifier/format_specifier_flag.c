@@ -1,32 +1,33 @@
 #include "ft_printf.h"
 
+// ,$#(<-+ 0
+static unsigned short __lookup_flag[256] = {
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+  SPACE, 0, 0, HASH, DOLLAR, 0, 0, 0,
+  LEFT_PARENTHESIS, 0, 0, PLUS, COMMA, MINUS, 0, 0,
+  ZERO, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, LEFT_PARENTHESIS, 0, 0, 0,
+
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
 char *format_specifier_flag(t_fmt *fmt, char *format) {
-  if (*format == ',') {
-    fmt->flag |= COMMA;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '$') {
-    fmt->flag |= DOLLAR;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '#') {
-    fmt->flag |= HASH;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '(') {
-    fmt->flag |= LEFT_PARENTHESIS;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '<') {
-    fmt->flag |= LESS_THAN;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '-') {
-    fmt->flag |= MINUS;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '+') {
-    fmt->flag |= PLUS;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == ' ') {
-    fmt->flag |= SPACE;
-    return format_specifier_flag(fmt, ++format);
-  } else if (*format == '0') {
-    fmt->flag |= ZERO;
+  const uint32_t match = (uint32_t)__lookup_flag[(uint8_t)*format];
+
+  if (match) {
+    fmt->flag |= match;
     return format_specifier_flag(fmt, ++format);
   }
   return format;

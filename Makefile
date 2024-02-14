@@ -1,7 +1,7 @@
 NAME = libftprintf.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror # -Weverything -std=gnu18 \
+CFLAGS = -Wall -Wextra -Werror -g3 # -Weverything -std=gnu18 \
   -Wno-poison-system-directories -Wno-cast-qual -Wno-padded 
 
 LIBFT_PATH = ./libft

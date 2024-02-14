@@ -1,8 +1,6 @@
 #include "ft_printf.h"
 
-#define PERCENT "%"
-
-static void length_int(t_fmt *fmt, t_list *buffer, va_list *args) {
+static void length_int(t_fmt *fmt, t_string_build *buffer, va_list *args) {
   if (fmt->length == NONE)
     convert_from_int(fmt, buffer, args);
   else if (fmt->length == CHAR)
@@ -21,7 +19,7 @@ static void length_int(t_fmt *fmt, t_list *buffer, va_list *args) {
     ;
 }
 
-static void length_u_int(t_fmt *fmt, t_list *buffer, va_list *args) {
+static void length_u_int(t_fmt *fmt, t_string_build *buffer, va_list *args) {
   if (fmt->length == NONE)
     convert_from_u_int(fmt, buffer, args);
   else if (fmt->length == CHAR)
@@ -40,9 +38,8 @@ static void length_u_int(t_fmt *fmt, t_list *buffer, va_list *args) {
     ;
 }
 
-void format_specifier_to_string(t_fmt *fmt, t_list *buffer, va_list *args) {
-  t_string string;
-
+void format_specifier_to_string(t_fmt *fmt, t_string_build *buffer,
+    va_list *args) {
   if (fmt->type == 'X')
     length_u_int(fmt, buffer, args);
   else if (fmt->type == 'c')
@@ -62,7 +59,10 @@ void format_specifier_to_string(t_fmt *fmt, t_list *buffer, va_list *args) {
   else if (fmt->type == 'x')
     length_u_int(fmt, buffer, args);
   else if (fmt->type == '%') {
-    if (fmt->flag == '0') {
+    string_build_append_str(buffer, "%", 1);
+  }
+
+    /*    if (fmt->flag == '0') {
       list_push(buffer, list_new_node(PERCENT, 2));
       if (fmt->width > 0)
         fmt->width -= 1;
@@ -79,5 +79,5 @@ void format_specifier_to_string(t_fmt *fmt, t_list *buffer, va_list *args) {
       };
     }
     token_decorator_string(fmt, buffer, &string);
-  }
+*/
 }

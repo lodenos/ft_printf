@@ -1,54 +1,48 @@
 #include <stdlib.h>
 #include <unistd.h>
-
 #include "ft_printf.h"
-#include "libft.h"
-
-static char *__handler_format(t_list *buffer, char *format, char *head,
-    va_list *args) {
-  t_fmt fmt;
-  size_t size;
-
-  fmt = (t_fmt){ 0 };
-  size = (size_t)(format - head - 1);
-  list_push(buffer, list_new_node(ft_strndup(head, size), size + 1));
-  format = format_specifier(&fmt, format);
-  format_specifier_to_string(&fmt, buffer, args);
-  return format;
-}
-
-static int __print_buffer(t_list *buffer) {
-  int num;
-  t_string *string;
-
-  string = list_to_string(buffer);
-  num = (int)write(1, string->data, string->data_size);
-  ft_string_free(&string);
-  return num;
-}
 
 int ft_printf(char const *format, ...) {
   va_list args;
-  t_list buffer;
+  t_string *string;
+  t_string_build *buffer;
   char *head;
   int num;
-  size_t size;
+  t_fmt fmt;
 
-  buffer = (t_list){ 0 };
-  head = (char *)format;
+  (void)head;
   va_start(args, format);
+  head =
+    (char *)format;
+  buffer = string_build_new();
+  if (!buffer)
+    return -1;
   while (*format) {
     if (*format == '%') {
-      format = __handler_format(&buffer, (char *)++format, head, &args);
+      fmt = (t_fmt){0};
+      string_build_append_str(buffer, head, format++ - head);
+      format = format_specifier(&fmt, (char *)format);
+      format_specifier_to_string(&fmt, buffer, &args);
       head = (char *)format;
       continue ;
     }
     ++format;
   }
+  string_build_append_str(buffer, head, (size_t)(format - head)); 
+  string = string_build_yield(buffer);
+  if (!string) {
+    string_build_delete(&buffer);
+    return -1;
+  }
+  num = (int)write(1, string->data->ptr, string->size);
+  string_delete(&string);
+  string_build_delete(&buffer);
+
+  if (list_register()->fn) {
+    free(list_register()->fn);
+    list_register()->size_max = 0;
+    list_register()->size = 0;
+  }
   va_end(args);
-  size = (size_t)(format - head);
-  list_push(&buffer, list_new_node(ft_strndup(head, size), size + 1));
-  num = __print_buffer(&buffer); 
-  list_clear(&buffer, NULL);
   return num;
 }
